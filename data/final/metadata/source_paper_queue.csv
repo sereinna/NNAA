@@ -1,0 +1,14 @@
+source_id,source_year,priority,n_peptides,n_pampa,n_caco2,shadow_groups_ge2,samples_in_repeated_shadow_groups,max_shadow_group_size,top_shadow_sequence_v0,queue_reason,doi,paper_title,supplementary_table_status,compound_name_mapping_status,dominant_edit_types,estimated_single_edit_pairs,estimated_multi_edit_pairs,manual_notes
+2020_Townsend,2020,A,3086,3086,0,60,3082,641,P.A.L.L.P.L.F,manual_pair_mining,,,unknown,unknown,,,,
+2021_Kelly,2021,A,1519,1519,0,3,1400,1100,ac-.P.L.T.L.L.L.A.L.P,manual_pair_mining,,,unknown,unknown,,,,
+2016_Furukawa,2016,B,688,688,8,18,306,17,A.Mono38.L.Nle.P.Mono34,manual_pair_mining,,,unknown,unknown,,,,
+2013_CHUGAI,2013,C,878,878,0,27,56,3,A.A.F.L.T.A.L.Ser(tBu).D.-pip,hold_for_later,,,unknown,unknown,,,,
+2018_CHUGAI,2018,C,374,0,374,25,52,4,A.Phe(3-Cl).V.V.T.Sar.L.Ser(tBu).F.L.D.-pip,hold_for_later,,,unknown,unknown,,,,
+2015_Wang,2015,A,62,62,62,8,44,19,L.L.L.L.P.Y,manual_pair_mining,10.1016/j.ejmech.2015.04.049,Exploring experimental and computational markers of cyclic peptides: Charting islands of permeability,needs_download,matched_to_cycpeptmpdb_source,stereochemistry_edit;N_methylation,40 directional candidates,90 directional candidates,Pilot tables generated; counts are directional candidate pairs and require manual review.
+2018_Naylor,2018,B,81,72,0,17,40,8,P.L.L.L.L.Y,manual_pair_mining,,,unknown,unknown,,,,
+2021_Golosov,2021,B,27,23,0,6,22,7,F.Nle.Nle.Nle.Nle.Mono100,manual_pair_mining,,,unknown,unknown,,,,
+2022_Bhardwaj,2022,C,136,133,40,10,20,2,I.P.F.I.P.F,hold_for_later,,,unknown,unknown,,,,
+2022_Taechalertpaisarn,2022,B,52,52,5,6,20,4,P.Pye.L.L.L.L,manual_pair_mining,,,unknown,unknown,,,,
+2020_Le Roux,2020,B,47,47,39,3,20,9,A.L.Mono78,manual_pair_mining,,,unknown,unknown,,,,
+2015_Hewitt,2015,B,18,0,18,1,17,17,P.L.L.L.L.Y,manual_pair_mining,,,unknown,unknown,,,,
+2015_Bockus_2,2015,B,17,17,17,5,12,4,Mono14.A.F.P.I.P,manual_pair_mining,,,unknown,unknown,,,,

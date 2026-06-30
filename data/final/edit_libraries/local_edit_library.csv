@@ -1,0 +1,14 @@
+edit_id,allowed_anchors,edit_scope,operation,attachment_type,chemical_payload_type,chemical_payload,modified_monomer_template,requires_backbone_nh,requires_aromatic,requires_sidechain_nucleophile,synthetic_risk,max_per_peptide,library_source
+backbone_n_methylation,A;V;L;I;F;W;Y;S;T;K;D;E;N;Q;R;H;C;G;Ala;Val;Leu;Ile;Phe;Trp;Tyr;Ser;Thr;Lys;Asp;Glu;Asn;Gln;Arg;His;Cys;Gly,backbone_edit,N_methylation,backbone_N,delta_graph,N-H_to_N-CH3,Me_{anchor},true,false,false,medium,4,core_rule
+l_to_d,A;V;L;I;F;W;Y;S;T;K;D;E;N;Q;R;H;C;P;Ala;Val;Leu;Ile;Phe;Trp;Tyr;Ser;Thr;Lys;Asp;Glu;Asn;Gln;Arg;His;Cys;Pro,stereochemistry_edit,D_L_inversion,alpha_C,chirality_change_flag,L_to_D,d{anchor},false,false,false,low,6,core_rule
+phe_para_f,F;Y;W;Phe;Tyr;Trp;Phe-like;Trp-like,R_group_edit,aromatic_substitution,phenyl_ring,r_group_delta,Phe_phenyl_H_to_F,{anchor}(4-F),false,true,false,low,3,aromatic_rule
+phe_para_cl,F;Y;W;Phe;Tyr;Trp;Phe-like;Trp-like,R_group_edit,aromatic_substitution,phenyl_ring,r_group_delta,Phe_phenyl_H_to_Cl,{anchor}(4-Cl),false,true,false,medium,3,aromatic_rule
+phe_para_cf3,F;Y;W;Phe;Tyr;Trp;Phe-like;Trp-like,R_group_edit,aromatic_substitution,phenyl_ring,r_group_delta,Phe_phenyl_H_to_CF3,{anchor}(4-CF3),false,true,false,medium,3,aromatic_rule
+phe_para_ome,F;Y;W;Phe;Tyr;Trp;Phe-like;Trp-like,R_group_edit,aromatic_substitution,phenyl_ring,r_group_delta,Phe_phenyl_H_to_OMe,{anchor}(4-OMe),false,true,false,medium,3,aromatic_rule
+ser_o_tbu,S;T;Ser;Thr,R_group_edit,O_alkylation,serine_OH,r_group_delta,Ser_OH_H_to_tBu,{anchor}(O-tBu),false,false,true,medium,2,nucleophile_rule
+cys_s_me,C;Cys,R_group_edit,S_alkylation,cysteine_sulfur,r_group_delta,Cys_thiol_to_S-Me,{anchor}(SMe),false,false,true,medium,2,nucleophile_rule
+lys_acyl,K;R;Lys;Arg;Lys-like,R_group_edit,sidechain_acylation,sidechain_N,r_group_delta,Lys_NH2_to_NHAc,{anchor}(Ac),false,false,true,medium,2,sidechain_rule
+lys_guanidino,K;Lys;Lys-like,R_group_edit,sidechain_charge_edit,sidechain_N,r_group_delta,Lys_NH2_to_guanidino,Arg-like,false,false,true,medium,2,sidechain_rule
+asp_to_gla,D;E;Asp;Glu;Asp-like;Glu-like,R_group_edit,sidechain_carboxylate_edit,sidechain_carboxyl,r_group_delta,Asp_carboxyl_to_extra_carboxyl,{anchor}(carboxy),false,false,true,high,1,acidic_rule
+ala_methyl_extension,A;Ala,R_group_edit,alpha_substitution,sidechain_Cbeta,r_group_delta,Ala_CH3_to_Et,Abu,false,false,false,medium,2,hydrophobic_rule
+gly_n_benzyl,G;Gly,backbone_and_R_group_edit,N_substitution,backbone_N,n_substituent_delta,N-H_to_N-Bn,Bn_Gly,true,false,false,medium,2,peptoid_rule

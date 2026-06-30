@@ -1,0 +1,41 @@
+﻿column_name,dtype,source,meaning
+sample_id,string,??,pair/edit event ???? ID
+source_id,string,??,??????? ID
+parent_peptide_id,string/int,??,??? peptide ID
+modified_peptide_id,string/int,??,??? peptide ID
+parent_name,string,??,?????
+modified_name,string,??,?????
+canonical_shadow_sequence_final,string,peptide_sample_table_final,?? final anchor ????? canonical shadow sequence
+parent_monomer_list,semicolon string,??,parent ????
+modified_monomer_list,semicolon string,??,modified ????
+parent_smiles,SMILES,??,parent ?????
+modified_smiles,SMILES,??,modified ?????
+assay_type,string,??,PAMPA/Caco2/MDCK ?
+property_before,float,??,?????
+property_after,float,??,?????
+delta_property,float,??,property_after - property_before
+censored_property_flag,bool,??,??????/?????
+review_decision,string,??,pair/event ???????
+review_reason,string,??,???????
+confidence_weight,float,??/??,??????
+directional_pair,bool,??,??????
+notes,string,??,??
+site_index,int,??,?????1-based
+anchor_residue,string,monomer_anchor_table_final.anchor_for_alignment,????/?????? pseudo anchor
+original_monomer,string,??,parent ?????
+modified_monomer,string,??,modified ?????
+edit_event_class,enum,monomer_anchor_table_final.edit_event_class_default,local_interpretable_edit / residue_graph_replacement / unknown_replacement / terminal_or_capping_context
+edit_event_subclass,enum/string,monomer_anchor_table_final.edit_event_subclass_default,????????? stereochemistry_edit?backbone_mimetic_replacement
+edit_scope,enum/string,monomer_anchor_table_final.final_edit_scope,??????/??? scope
+operation_type,enum/string,monomer_anchor_table_final.operation_default,??????
+attachment_type,enum/string,monomer_anchor_table_final.attachment_default,??? alpha_C/backbone_N/sidechain ???
+chemical_payload_type,enum/string,monomer_anchor_table_final.final_chemical_payload_type,delta_graph / combined_delta / full_residue_graph / backbone_replacement_graph / unknown_or_missing_structure
+chemical_payload,string/graph ref,monomer_anchor_table_final.final_chemical_payload,?? payload ??? full residue graph ??
+use_for_local_edit_model,bool,monomer_anchor_table_final.use_for_local_edit_model,??????? local edit ??
+use_for_atom_edit_model,bool,monomer_anchor_table_final.use_for_atom_edit_model,????? full-atom edit/replacement ??
+local_model_eligibility,enum,monomer_anchor_table_final.local_model_eligibility,eligible / needs_manual_review / not_eligible ?
+atom_model_eligibility,enum,monomer_anchor_table_final.atom_model_eligibility,eligible_full_atom / auxiliary / low_confidence / not_eligible ?
+model_use_tier,enum,monomer_anchor_table_final.model_use_tier_default,core_local_edit / atom_replacement_auxiliary / atom_unknown_auxiliary / exclude_until_curated
+requires_manual_curation,bool,monomer_anchor_table_final.requires_manual_curation_final,????????
+event_curation_reason,string,monomer_anchor_table_final.final_curation_reason,??????????
+edit_count,int,??,?? pair ??????

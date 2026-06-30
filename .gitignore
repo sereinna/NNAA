@@ -1,0 +1,28 @@
+# 中文说明：Git 仅跟踪核心代码、说明文档和最终 model-ready 数据，排除缓存、临时产物和大体积可再生成文件。
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Runtime/cache artifacts
+data/final/cache/
+runs/
+reports/
+
+# Raw and intermediate data not needed for the core repository snapshot
+data/raw_sources/
+data/final/splits/
+data/final/training/
+data/final/model_ready/source_shadow/
+data/external_benchmarks/literature_sources/*/raw/
+data/external_benchmarks/literature_sources/*.html
+data/external_benchmarks/literature_sources/2024_bergeron_mortiamide/
+data/external_benchmarks/literature_sources/2024_merz_nat_chem_biol/
+data/external_benchmarks/literature_sources/2025_pegasus/
+data/external_benchmarks/literature_sources/swemacrocycledb_2025/
+
+# Local/editor files
+.DS_Store
+*.log
+*.tmp

@@ -1,0 +1,13 @@
+{
+  "max_hamming_distance": 1,
+  "min_abs_delta": 0.05,
+  "out_jsonl": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/model_ready_local_neighbor_d1_refined_v4_strict_anchor.jsonl",
+  "pair_mode": "local-neighbor",
+  "pampa_max": -4.994304357,
+  "pampa_median": -6.742524947,
+  "pampa_min": -10.0,
+  "rows": 1434,
+  "source_csv": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/raw/CycPeptMPDB_Peptide_Source_2024_Faris.csv",
+  "source_rows": 234,
+  "source_slug": "2024_faris"
+}

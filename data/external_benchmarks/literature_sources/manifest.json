@@ -1,0 +1,58 @@
+[
+  {
+    "source_key": "2024_merz_nat_chem_biol",
+    "priority": "A",
+    "paper_title": "De novo development of small cyclic peptides that are orally bioavailable",
+    "year": 2024,
+    "doi": "10.1038/s41589-023-01496-y",
+    "url": "https://www.nature.com/articles/s41589-023-01496-y",
+    "why_selected": "Open article with iterative cyclic peptide optimization; source data includes permeability percentage for compounds 38-46 and oral bioavailability endpoints.",
+    "expected_use": "small case-study benchmark; useful for top-k recovery around late-stage optimization 43->46",
+    "raw_dir": "data/external_benchmarks/literature_sources/2024_merz_nat_chem_biol/raw",
+    "status": "raw_downloaded_partial; permeability table for peptides 38-46 curated; needs structure/edit mapping from figures/SI to model_ready JSONL",
+    "curated_file": "data/external_benchmarks/literature_sources/2024_merz_nat_chem_biol/curated_permeability_38_46.csv"
+  },
+  {
+    "source_key": "2024_faris_jacs",
+    "priority": "A",
+    "paper_title": "Membrane Permeability in a Large Macrocyclic Peptide Driven by a Saddle-Shaped Conformation",
+    "year": 2024,
+    "doi": "10.1021/jacs.3c10949",
+    "url": "https://pubs.acs.org/doi/10.1021/jacs.3c10949",
+    "cycpeptmpdb_url": "https://cycpeptmpdb.com/resources/statistics/set_2024_Faris/",
+    "why_selected": "Large 2024 macrocyclic peptide permeability series; CycPeptMPDB lists it as 2024_Faris, likely easiest to convert once raw rows are obtained.",
+    "expected_use": "main external ranking benchmark if compound table can be downloaded or exported",
+    "raw_dir": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/raw",
+    "status": "raw_cycpeptmpdb_csv_downloaded; 234 rows; ready for source-level external model-ready conversion",
+    "raw_file": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/raw/CycPeptMPDB_Peptide_Source_2024_Faris.csv"
+  },
+  {
+    "source_key": "2024_bergeron_mortiamide",
+    "priority": "B",
+    "paper_title": "Analogs of Cyclic Peptide Mortiamide-D From Marine Fungi Have Improved Membrane Permeability and Kill Drug-Resistant Melanoma Cells",
+    "year": 2024,
+    "doi": "10.1002/pep2.24380",
+    "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/pep2.24380",
+    "cycpeptmpdb_url": "https://cycpeptmpdb.com/resources/statistics/set_2024_Bergeron/",
+    "why_selected": "Recent natural-product analog optimization series; not present in local training source list; CycPeptMPDB page exists.",
+    "expected_use": "small external case-study benchmark",
+    "raw_dir": "data/external_benchmarks/literature_sources/2024_bergeron_mortiamide/raw",
+    "status": "raw_cycpeptmpdb_csv_downloaded; 3 rows; useful only as tiny case study, not main benchmark",
+    "raw_file": "data/external_benchmarks/literature_sources/2024_bergeron_mortiamide/raw/CycPeptMPDB_Peptide_Source_2024_Bergeron.csv"
+  },
+  {
+    "source_key": "2025_pegasus",
+    "priority": "B",
+    "paper_title": "PEGASUS: Unlocking Polarity in Cell-Permeable Cyclic Peptides Using AI Models Built on Massively Parallel Biological Assays",
+    "year": 2025,
+    "doi": "10.1021/acs.jmedchem.5c01836",
+    "url": "https://pubs.acs.org/doi/10.1021/acs.jmedchem.5c01836",
+    "figshare_url": "https://acs.figshare.com/articles/dataset/PEGASUS_Unlocking_Polarity_in_Cell-Permeable_Cyclic_Peptides_Using_AI_Models_Built_on_Massively_Parallel_Biological_Assays/30937023",
+    "why_selected": "Newest AI-guided cyclic peptide permeability design dataset with public figshare CSV supplement.",
+    "expected_use": "method-level external comparison and possible permeability ranking benchmark after checking assay compatibility with PAMPA labels",
+    "raw_dir": "data/external_benchmarks/literature_sources/2025_pegasus/raw",
+    "status": "raw_csv_downloaded; contains 22 sequences with SMILES and logD/descriptors, not direct PAMPA; use as auxiliary/generalization set unless permeability labels found elsewhere",
+    "figshare_api": "https://api.figshare.com/v2/articles/30937023",
+    "raw_file": "data/external_benchmarks/literature_sources/2025_pegasus/raw/jm5c01836_si_003.csv"
+  }
+]
