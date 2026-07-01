@@ -1,0 +1,14 @@
+{
+  "group_count": 234,
+  "input_jsonl": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/model_ready_local_neighbor_d1.jsonl",
+  "out_jsonl": "data/final/model_ready/faris_only/cedg_score_dataset.jsonl",
+  "rows": 1434,
+  "seed": 7,
+  "split_counts": {
+    "test": 152,
+    "train": 1165,
+    "val": 117
+  },
+  "train_frac": 0.8,
+  "val_frac": 0.1
+}
