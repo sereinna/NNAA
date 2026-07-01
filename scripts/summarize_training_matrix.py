@@ -111,7 +111,7 @@ def main() -> None:
             "| {train_setting} | {eval_setting} | {delta_mae} | {delta_spearman} | {direction_auc} | "
             "{ranking_spearman} | {ranking_ndcg_at_5} | {best_hit_at_5} | {positive_hit_at_5} |".format(
                 **{
-                    key: "" if value is None else f"{value:.3f}" if isinstance(value, float) else value
+                    key: "N/A" if value is None else f"{value:.3f}" if isinstance(value, float) else value
                     for key, value in row.items()
                 }
             )
@@ -121,6 +121,7 @@ def main() -> None:
             "",
             "Interpretation:",
             "",
+            "- `N/A` means the metric is not produced by that evaluation protocol, not that the run is missing.",
             "- `original_only -> original_test` is still the strongest in-domain baseline.",
             "- `original_only -> faris_all_external` shows useful external ranking signal on Faris local SAR.",
             "- `faris_only` is weak despite being in-domain, indicating that 1434 Faris pairs are too small for the full architecture.",
