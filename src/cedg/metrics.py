@@ -71,6 +71,44 @@ def group_ndcg_at_k(groups: list[str], y_true: np.ndarray, score: np.ndarray, k:
     return float(np.mean(values)) if values else float("nan")
 
 
+def group_topk_recovery_metrics(
+    groups: list[str],
+    y_true: np.ndarray,
+    score: np.ndarray,
+    top_ks: tuple[int, ...] = (1, 3, 5, 10),
+    positive_threshold: float = 0.0,
+) -> dict[str, float]:
+    """Top-k recovery of experimentally best and positive candidates within each group."""
+
+    by_group: dict[str, list[int]] = {}
+    for idx, group in enumerate(groups):
+        by_group.setdefault(group, []).append(idx)
+
+    best_hits: dict[int, list[float]] = {k: [] for k in top_ks}
+    positive_hits: dict[int, list[float]] = {k: [] for k in top_ks}
+
+    for indices in by_group.values():
+        if len(indices) < 2:
+            continue
+        ordered = sorted(indices, key=lambda i: score[i], reverse=True)
+        max_true = max(float(y_true[i]) for i in indices)
+        best_indices = {i for i in indices if float(y_true[i]) == max_true}
+        positive_indices = {i for i in indices if float(y_true[i]) > positive_threshold}
+        for k in top_ks:
+            top = set(ordered[:k])
+            best_hits[k].append(float(bool(best_indices & top)))
+            if positive_indices:
+                positive_hits[k].append(float(bool(positive_indices & top)))
+
+    metrics: dict[str, float] = {}
+    for k in top_ks:
+        metrics[f"best_hit_at_{k}"] = float(np.mean(best_hits[k])) if best_hits[k] else float("nan")
+        metrics[f"positive_hit_at_{k}"] = (
+            float(np.mean(positive_hits[k])) if positive_hits[k] else float("nan")
+        )
+    return metrics
+
+
 def cedg_regression_ranking_metrics(
     y_delta: np.ndarray,
     p_delta: np.ndarray,
@@ -87,7 +125,7 @@ def cedg_regression_ranking_metrics(
     abs_err = np.abs(y_delta - p_delta)
     uncertainty = np.maximum(p_uncertainty, 1e-8)
     z_score = abs_err / uncertainty
-    return {
+    metrics = {
         "delta_mae": float(mean_absolute_error(y_delta, p_delta)),
         "delta_rmse": float(mean_squared_error(y_delta, p_delta) ** 0.5),
         "delta_spearman": safe_spearman(y_delta, p_delta),
@@ -102,6 +140,8 @@ def cedg_regression_ranking_metrics(
         "selective_risk_coverage_80": selective_risk(abs_err, p_uncertainty, coverage=0.8),
         "mean_uncertainty": float(np.mean(p_uncertainty)),
     }
+    metrics.update(group_topk_recovery_metrics(groups, y_delta, p_ranking))
+    return metrics
 
 
 def selective_risk(abs_error: np.ndarray, uncertainty: np.ndarray, coverage: float = 0.8) -> float:

@@ -5,34 +5,31 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import torch
-from scipy.stats import spearmanr
 from torch.utils.data import DataLoader
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from cedg.data import CEDGCollatorWithESM, CEDGDataset, build_vocabs, collate_cedg, load_jsonl  # noqa: E402
-from cedg.metrics import group_ndcg_at_k, group_pairwise_accuracy  # noqa: E402
+from cedg.metrics import (  # noqa: E402
+    group_ndcg_at_k,
+    group_pairwise_accuracy,
+    group_topk_recovery_metrics,
+    safe_auc,
+    safe_spearman,
+)
 from cedg.model import CEDGScoreModel  # noqa: E402
 from cedg.plm import ESMBatchConverter, esm_model_spec, load_esm_model  # noqa: E402
 from cedg.utils import move_to_device  # noqa: E402
 
 
 TRAIN_DATASET = ROOT / "data" / "final" / "model_ready" / "peptide_component" / "cedg_score_dataset.jsonl"
-
-
-def safe_spearman(values: list[float], scores: list[float]) -> float:
-    if len(values) < 2 or len(set(values)) < 2 or len(set(scores)) < 2:
-        return float("nan")
-    value = spearmanr(values, scores).statistic
-    return float(value) if not math.isnan(value) else float("nan")
 
 
 def edit_summary(edit_set: list[dict[str, object]]) -> str:
@@ -217,6 +214,7 @@ def score_records(
                         "observed_property_after": float(record.get("property_after", 0.0)),
                         "pred_delta": float(outputs["delta"][local_idx].detach().cpu()),
                         "pred_property_after": float(outputs["property_after"][local_idx].detach().cpu()),
+                        "direction_prob": float(torch.sigmoid(outputs["direction_logit"][local_idx]).detach().cpu()),
                         "ranking_score": float(outputs["ranking_score"][local_idx].detach().cpu()),
                         "uncertainty": float(outputs["uncertainty"][local_idx].detach().cpu()),
                     }
@@ -262,25 +260,42 @@ def summarize_benchmark(scored: pd.DataFrame, top_ks: list[int], positive_thresh
     group_rows = [benchmark_group(group, top_ks, positive_threshold) for group in groups]
     group_summary = pd.DataFrame(group_rows)
     y = scored["observed_delta"].to_numpy(dtype=float)
-    score = scored["recommendation_score"].to_numpy(dtype=float)
+    pred_delta = scored["pred_delta"].to_numpy(dtype=float)
+    direction_label = (y > positive_threshold).astype(int)
+    direction_prob = scored["direction_prob"].to_numpy(dtype=float)
+    ranking_score = scored["ranking_score"].to_numpy(dtype=float)
+    recommendation_score = scored["recommendation_score"].to_numpy(dtype=float)
     group_names = scored["candidate_group_id"].astype(str).tolist()
     metrics: dict[str, object] = {
         "n_rows": int(len(scored)),
         "n_groups": int(len(group_summary)),
         "positive_threshold": positive_threshold,
-        "overall_spearman": safe_spearman(y.tolist(), score.tolist()),
-        "group_pairwise_accuracy": group_pairwise_accuracy(group_names, y, score),
+        "delta_mae": float(np.mean(np.abs(y - pred_delta))),
+        "delta_rmse": float(np.sqrt(np.mean((y - pred_delta) ** 2))),
+        "delta_spearman": safe_spearman(y, pred_delta),
+        "direction_accuracy": float(np.mean((direction_prob >= 0.5) == direction_label)),
+        "direction_auc": safe_auc(direction_label, direction_prob),
+        "ranking_spearman": safe_spearman(y, ranking_score),
+        "recommendation_spearman": safe_spearman(y, recommendation_score),
+        "overall_spearman": safe_spearman(y, recommendation_score),
+        "group_pairwise_accuracy": group_pairwise_accuracy(group_names, y, ranking_score),
+        "recommendation_pairwise_accuracy": group_pairwise_accuracy(group_names, y, recommendation_score),
         "mean_group_spearman": float(group_summary["group_spearman"].dropna().mean()) if len(group_summary) else float("nan"),
         "mean_best_observed_rank": float(group_summary["best_observed_rank"].mean()) if len(group_summary) else float("nan"),
         "mean_reciprocal_rank": float(group_summary["best_observed_reciprocal_rank"].mean()) if len(group_summary) else float("nan"),
     }
+    metrics.update(group_topk_recovery_metrics(group_names, y, ranking_score, tuple(top_ks), positive_threshold))
     for k in top_ks:
-        metrics[f"best_hit_at_{k}"] = float(group_summary[f"best_hit_at_{k}"].mean()) if len(group_summary) else float("nan")
+        metrics[f"recommendation_best_hit_at_{k}"] = (
+            float(group_summary[f"best_hit_at_{k}"].mean()) if len(group_summary) else float("nan")
+        )
         positive_groups = group_summary[group_summary["has_positive"]]
-        metrics[f"positive_hit_at_{k}"] = (
+        metrics[f"recommendation_positive_hit_at_{k}"] = (
             float(positive_groups[f"positive_hit_at_{k}"].mean()) if len(positive_groups) else float("nan")
         )
-        metrics[f"ndcg_at_{k}"] = group_ndcg_at_k(group_names, y, score, k=k)
+        metrics[f"ndcg_at_{k}"] = group_ndcg_at_k(group_names, y, ranking_score, k=k)
+        metrics[f"ranking_ndcg_at_{k}"] = metrics[f"ndcg_at_{k}"]
+        metrics[f"recommendation_ndcg_at_{k}"] = group_ndcg_at_k(group_names, y, recommendation_score, k=k)
         metrics[f"top{k}_mean_delta_minus_group_mean"] = (
             float((group_summary[f"top{k}_mean_observed_delta"] - group_summary["mean_observed_delta"]).mean())
             if len(group_summary)
