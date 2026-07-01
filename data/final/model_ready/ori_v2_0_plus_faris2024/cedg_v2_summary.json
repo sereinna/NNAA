@@ -1,0 +1,84 @@
+{
+  "faris2024_rows": 1434,
+  "ori_plus_faris2024_rows": 8686,
+  "ori_rows": 7252,
+  "rules": {
+    "keep_reverse_directions": true,
+    "max_pairs_per_large_group": 500,
+    "split_scheme": "source-stratified peptide component balanced split",
+    "townsend_source_cap": 3000
+  },
+  "source_summaries": [
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 141,
+      "selected_rows": 141,
+      "source_cap": null,
+      "source_id": "2013_CHUGAI"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 67,
+      "selected_rows": 67,
+      "source_cap": null,
+      "source_id": "2015_Wang"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 353,
+      "selected_rows": 353,
+      "source_cap": null,
+      "source_id": "2020_Le Roux"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 66,
+      "selected_rows": 66,
+      "source_cap": null,
+      "source_id": "2022_Taechalertpaisarn"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 36,
+      "selected_rows": 36,
+      "source_cap": null,
+      "source_id": "2021_Golosov"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 7,
+      "selected_rows": 7,
+      "source_cap": null,
+      "source_id": "2015_Bockus_2"
+    },
+    {
+      "large_groups": 0,
+      "raw_directional_candidates": 40,
+      "selected_rows": 40,
+      "source_cap": null,
+      "source_id": "2018_Naylor"
+    },
+    {
+      "large_groups": 3,
+      "raw_directional_candidates": 55855,
+      "selected_rows": 1500,
+      "source_cap": null,
+      "source_id": "2016_Furukawa"
+    },
+    {
+      "large_groups": 13,
+      "raw_directional_candidates": 63406,
+      "selected_rows": 3000,
+      "source_cap": 3000,
+      "source_id": "2020_Townsend"
+    },
+    {
+      "large_groups": 3,
+      "raw_directional_candidates": 85125,
+      "selected_rows": 2042,
+      "source_cap": null,
+      "source_id": "2021_Kelly"
+    }
+  ],
+  "version": "v2.0"
+}
