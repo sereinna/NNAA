@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""中文说明：汇总原始、Faris-only、plus_faris 三组训练/交叉评估结果。"""
+"""中文说明：汇总 ori、faris2024、ori+faris2024 三组训练/交叉评估结果。"""
 
 from __future__ import annotations
 
@@ -59,12 +59,12 @@ def main() -> None:
     plus_on_original = load("runs/cedg_set_esm_cached_plus_faris_rankheavy/original_test_metrics_unified.json")
 
     rows = [
-        make_row("original_only", "original_test", original_on_original, "held-out original split"),
-        make_row("original_only", "faris_all_score", original_on_faris, "all Faris local SAR groups scored as literature benchmark"),
-        make_row("faris_only", "faris_test", faris_on_faris, "held-out Faris split"),
-        make_row("faris_only", "original_test", faris_on_original, "cross-dataset original split"),
-        make_row("original_plus_faris", "combined_test", plus_on_combined, "held-out split after merging original and Faris"),
-        make_row("original_plus_faris", "original_test", plus_on_original, "cross-check on original test split"),
+        make_row("ori", "ori_test", original_on_original, "held-out ori split"),
+        make_row("ori", "faris2024_all_score", original_on_faris, "all faris2024 local SAR groups scored"),
+        make_row("faris2024", "faris2024_test", faris_on_faris, "held-out faris2024 split"),
+        make_row("faris2024", "ori_test", faris_on_original, "cross-dataset ori split"),
+        make_row("ori+faris2024", "ori+faris2024_test", plus_on_combined, "held-out split after merging ori and faris2024"),
+        make_row("ori+faris2024", "ori_test", plus_on_original, "cross-check on ori test split"),
     ]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     table = pd.DataFrame(rows)
@@ -90,10 +90,11 @@ def main() -> None:
             "- Metrics are now computed with a unified protocol wherever the dataset has `candidate_group_id` and `delta_property`.",
             "- `best_hit@5` checks whether the experimentally best edit in each candidate group is recovered in model top-5.",
             "- `positive_hit@5` checks whether model top-5 contains at least one experimentally positive edit in groups with positives.",
-            "- `original_only -> original_test` is still the strongest in-domain baseline.",
-            "- `original_only -> faris_all_score` shows useful cross-literature ranking signal on Faris local SAR.",
-            "- `faris_only` is weak despite being in-domain, indicating that 1434 Faris pairs are too small for the full architecture.",
-            "- `original_plus_faris` trains successfully but does not yet outperform the original-only model; next runs should tune Faris weight, checkpoint selection, or staged fine-tuning.",
+            "- There is still an overfitting risk: random held-out splits can share parent/local SAR neighborhoods with train, especially for faris2024.",
+            "- `ori -> ori_test` is still the strongest in-domain baseline.",
+            "- `ori -> faris2024_all_score` shows useful cross-literature ranking signal on faris2024 local SAR.",
+            "- `faris2024` is weak despite being in-domain, indicating that 1434 Faris pairs are too small for the full architecture.",
+            "- `ori+faris2024` trains successfully but does not yet outperform `ori`; next runs should tune Faris weight, checkpoint selection, grouped splits, or staged fine-tuning.",
         ]
     )
     (OUT_DIR / "training_matrix_summary.md").write_text("\n".join(markdown) + "\n", encoding="utf-8")
