@@ -1,7 +1,7 @@
 {
   "base_dataset": "data/final/model_ready/peptide_component/cedg_score_dataset.jsonl",
   "base_rows": 9180,
-  "external_dataset": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/model_ready_local_neighbor_d1_refined_v4_strict_anchor.jsonl",
+  "external_dataset": "data/external_benchmarks/literature_sources/2024_jacs_macrocyclic_10mer/model_ready_local_neighbor_d1.jsonl",
   "external_group_count": 234,
   "external_rows": 1434,
   "external_split_counts": {

@@ -357,3 +357,35 @@ runs/archive_legacy/
 - 评估增强模型在原始 test split 和 Faris test split 上是否同时提升；
 - 进一步扩展 edit library，使新 peptide 优化建议覆盖更多可靠的非天然单体变化；
 - 若用于论文级结果，需要固定随机种子并重复 3 次以上报告均值和标准差。
+
+## 14. plus_faris 正式训练结果
+
+已完成一次 `peptide_component_plus_faris` 正式训练：
+
+```text
+runs/cedg_set_esm_cached_plus_faris_rankheavy/
+```
+
+训练设置：30 epochs, batch size 512, hidden dim 128, ESM cache, graph cache, group-aware batches, GPU `cuda:0`。最佳模型按 validation delta MAE 选择，最佳 epoch 为第 24 轮。
+
+plus_faris test split 指标：
+
+| 指标 | 数值 |
+|---|---:|
+| test_delta_mae | 0.701 |
+| test_delta_spearman | 0.575 |
+| test_direction_auc | 0.765 |
+| test_ranking_spearman | 0.547 |
+| test_ranking_ndcg_at_5 | 0.820 |
+
+同一个 plus_faris checkpoint 在原始 `peptide_component` test split 上的同口径评估：
+
+| 指标 | 数值 |
+|---|---:|
+| delta_mae | 0.666 |
+| delta_spearman | 0.627 |
+| direction_auc | 0.785 |
+| ranking_spearman | 0.588 |
+| ranking_ndcg_at_5 | 0.832 |
+
+解释：加入 Faris 后模型能够训练并保持一定排序能力，但相对旧的原始数据模型，delta/property 回归和 ranking Spearman 暂未提升。当前 plus_faris 模型更适合作为“增强训练已跑通”的基线，不应直接替代旧模型作为最终最好模型。下一步建议调低 Faris weight、使用分阶段 fine-tuning 或改用 ranking/top-k 指标选择 checkpoint。
